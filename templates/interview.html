@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Interview Room</h1>
+
+<h3>Candidate Details</h3>
+
+<table border="1" cellpadding="10">
+
+<tr>
+    <td><strong>Name</strong></td>
+    <td>{{ interview.name }}</td>
+</tr>
+
+<tr>
+    <td><strong>Role</strong></td>
+    <td>{{ interview.role }}</td>
+</tr>
+
+<tr>
+    <td><strong>Experience</strong></td>
+    <td>{{ interview.experience }}</td>
+</tr>
+
+<tr>
+    <td><strong>Interview Type</strong></td>
+    <td>{{ interview.interview_type }}</td>
+</tr>
+
+<tr>
+    <td><strong>Difficulty</strong></td>
+    <td>{{ interview.difficulty }}</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h2>AI Interview Will Begin Here...</h2>
+
+{% endblock %}

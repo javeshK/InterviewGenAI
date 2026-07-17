@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Interview Setup</h1>
+
+<form action="/setup" method="POST">
+
+<label>Name</label>
+
+<input
+type="text"
+name="name"
+required>
+
+<br><br>
+
+<label>Role</label>
+
+<select name="role">
+
+<option>Python Backend Developer</option>
+
+<option>Full Stack Developer</option>
+
+<option>Machine Learning Engineer</option>
+
+<option>Cybersecurity Analyst</option>
+
+</select>
+
+<br><br>
+
+<label>Experience</label>
+
+<select name="experience">
+
+<option>Student</option>
+
+<option>Fresher</option>
+
+<option>0-2 Years</option>
+
+<option>2-5 Years</option>
+
+</select>
+
+<br><br>
+
+<label>Interview Type</label>
+
+<select name="interview_type">
+
+<option>Technical</option>
+
+<option>HR</option>
+
+<option>Behavioral</option>
+
+<option>Mixed</option>
+
+</select>
+
+<br><br>
+
+<label>Difficulty</label>
+
+<select name="difficulty">
+
+<option>Easy</option>
+
+<option>Medium</option>
+
+<option>Hard</option>
+
+</select>
+
+<br><br>
+
+<button>
+
+Start Interview
+
+</button>
+
+
+</form>
+
+{% endblock %}

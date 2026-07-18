@@ -5,7 +5,9 @@ from models.conversation_message import ConversationMessage
 
 from repositories.candidate_repository import CandidateRepository
 from repositories.interview_repository import InterviewRepository
-from repositories.question_repository import QuestionRepository
+from repositories.interview_question_repository import (
+    InterviewQuestionRepository
+)
 
 from services.llm_service import LLMService
 from services.session_manager import SessionManager
@@ -67,7 +69,7 @@ class InterviewService:
                 session
             )
 
-            QuestionRepository.create(
+            InterviewQuestionRepository.create(
 
                 interview.id,
 

@@ -1,21 +1,669 @@
 {% extends "base.html" %}
 
+{% block title %}
+InterviewGen AI | Home
+{% endblock %}
+
 {% block content %}
 
-<h1>
+<!-- ================================================= -->
+<!-- HERO SECTION -->
+<!-- ================================================= -->
 
-Welcome to InterviewGen AI
+<section class="relative overflow-hidden">
 
-</h1>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center min-h-[80vh]">
 
-<p>
+        <!-- LEFT -->
 
-Practice AI-powered mock interviews.
+        <div>
 
-</p>
+            <span
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-400/20 text-indigo-300">
 
-<a href="/setup">
-    <button>Start Interview</button>
-</a>
+                <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
 
+                Powered by Google Gemini
+
+            </span>
+
+            <h1 class="hero-text font-black leading-tight mt-8">
+
+                Your Personal
+
+                <span class="bg-gradient-to-r from-indigo-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent">
+
+                    AI Interviewer
+
+                </span>
+
+            </h1>
+
+            <p class="sub-text text-slate-300 mt-8 max-w-2xl leading-8">
+
+                InterviewGen AI is a next-generation mock interview platform
+                powered by Generative AI.
+                Practice technical, HR and behavioral interviews while receiving
+                intelligent follow-up questions, real-time evaluation,
+                communication analysis and detailed feedback.
+
+            </p>
+
+            <div class="flex flex-wrap gap-5 mt-12">
+
+                <a href="{{ url_for('main.setup') }}"
+                    class="px-8 py-4 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-600 hover:scale-105 transition duration-300 shadow-xl font-semibold">
+
+                    🚀 Start Interview
+
+                </a>
+
+                <a href="#features"
+                    class="px-8 py-4 rounded-xl border border-white/10 hover:border-indigo-400 transition">
+
+                    Learn More
+
+                </a>
+
+            </div>
+
+            <!-- Quick Stats -->
+
+            <div class="grid grid-cols-3 gap-6 mt-16">
+
+                <div>
+
+                    <h2 class="text-4xl font-bold text-indigo-400">
+
+                        AI
+
+                    </h2>
+
+                    <p class="text-slate-400 mt-2">
+
+                        Powered
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <h2 class="text-4xl font-bold text-cyan-400">
+
+                        Live
+
+                    </h2>
+
+                    <p class="text-slate-400 mt-2">
+
+                        Evaluation
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <h2 class="text-4xl font-bold text-violet-400">
+
+                        24/7
+
+                    </h2>
+
+                    <p class="text-slate-400 mt-2">
+
+                        Available
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div>
+
+            <div class="glass rounded-3xl p-8">
+
+                <div class="flex justify-between items-center">
+
+                    <div>
+
+                        <h3 class="font-bold text-xl">
+
+                            Live Interview
+
+                        </h3>
+
+                        <p class="text-slate-400">
+
+                            Python Backend Developer
+
+                        </p>
+
+                    </div>
+
+                    <span class="px-4 py-2 rounded-full bg-green-500/20 text-green-300">
+
+                        LIVE
+
+                    </span>
+
+                </div>
+
+                <div class="mt-8 rounded-2xl border border-white/10 bg-slate-900/40 p-8">
+
+                    <div class="flex items-center gap-4">
+
+                        <div
+                            class="w-12 h-12 rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-500 flex items-center justify-center">
+
+                            🤖
+
+                        </div>
+
+                        <div>
+
+                            <h4 class="font-semibold">
+
+                                AI Interviewer
+
+                            </h4>
+
+                            <p class="text-slate-400 text-sm">
+
+                                Gemini 3.5 Flash
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mt-8 rounded-xl bg-indigo-500/10 border border-indigo-500/20 p-6">
+
+                        <p class="text-lg leading-8">
+
+                            Explain the difference between
+                            multithreading and multiprocessing
+                            in Python.
+
+                        </p>
+
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mt-8">
+
+                        <div class="rounded-xl bg-slate-900/40 border border-white/10 p-5">
+
+                            <p class="text-slate-400 text-sm">
+
+                                Difficulty
+
+                            </p>
+
+                            <h3 class="font-semibold mt-2">
+
+                                Medium
+
+                            </h3>
+
+                        </div>
+
+                        <div class="rounded-xl bg-slate-900/40 border border-white/10 p-5">
+
+                            <p class="text-slate-400 text-sm">
+
+                                Questions
+
+                            </p>
+
+                            <h3 class="font-semibold mt-2">
+
+                                10
+
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- FEATURES -->
+<!-- ================================================= -->
+
+<section id="features" class="mt-28">
+
+    <div class="text-center">
+
+        <h2 class="text-5xl font-bold">
+
+            Why InterviewGen AI?
+
+        </h2>
+
+        <p class="text-slate-400 mt-5 max-w-3xl mx-auto">
+
+            More than just a mock interview platform.
+            Experience a realistic AI interviewer capable of asking
+            contextual follow-up questions and evaluating your answers.
+
+        </p>
+
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-16">
+
+        <div class="glass rounded-3xl p-8">
+
+            <div class="text-5xl">
+
+                🤖
+
+            </div>
+
+            <h3 class="font-bold text-2xl mt-6">
+
+                AI Generated Questions
+
+            </h3>
+
+            <p class="text-slate-400 mt-5 leading-7">
+
+                Every interview is dynamically generated using
+                Google Gemini based on role,
+                experience,
+                interview type
+                and difficulty.
+
+            </p>
+
+        </div>
+
+        <div class="glass rounded-3xl p-8">
+
+            <div class="text-5xl">
+
+                🎤
+
+            </div>
+
+            <h3 class="font-bold text-2xl mt-6">
+
+                Voice Interviews
+
+            </h3>
+
+            <p class="text-slate-400 mt-5 leading-7">
+
+                Answer naturally through your microphone
+                while speech recognition converts
+                your responses into text.
+
+            </p>
+
+        </div>
+
+        <div class="glass rounded-3xl p-8">
+
+            <div class="text-5xl">
+
+                📹
+
+            </div>
+
+            <h3 class="font-bold text-2xl mt-6">
+
+                Camera Analysis
+
+            </h3>
+
+            <p class="text-slate-400 mt-5 leading-7">
+
+                Future-ready support for eye contact,
+                confidence estimation,
+                posture analysis
+                and engagement tracking.
+
+            </p>
+
+        </div>
+        <div class="glass rounded-3xl p-8">
+
+            <div class="text-5xl">
+
+                📄
+
+            </div>
+
+            <h3 class="font-bold text-2xl mt-6">
+
+                Resume Based Interview
+
+            </h3>
+
+            <p class="text-slate-400 mt-5 leading-7">
+
+                Upload your resume and let Gemini create
+                personalized interview questions from your
+                projects, skills, internships and experience.
+
+            </p>
+
+        </div>
+
+        <div class="glass rounded-3xl p-8">
+
+            <div class="text-5xl">
+
+                📊
+
+            </div>
+
+            <h3 class="font-bold text-2xl mt-6">
+
+                Intelligent Evaluation
+
+            </h3>
+
+            <p class="text-slate-400 mt-5 leading-7">
+
+                Receive detailed feedback on technical knowledge,
+                communication skills, confidence,
+                problem solving and overall interview performance.
+
+            </p>
+
+        </div>
+
+        <div class="glass rounded-3xl p-8">
+
+            <div class="text-5xl">
+
+                ☁️
+
+            </div>
+
+            <h3 class="font-bold text-2xl mt-6">
+
+                Cloud Ready
+
+            </h3>
+
+            <p class="text-slate-400 mt-5 leading-7">
+
+                Designed using a scalable architecture
+                that can later be deployed on cloud
+                infrastructure for enterprise usage.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- HOW IT WORKS -->
+<!-- ================================================= -->
+
+<section class="mt-32">
+
+    <div class="text-center">
+
+        <h2 class="text-5xl font-bold">
+
+            How It Works
+
+        </h2>
+
+        <p class="text-slate-400 mt-5 max-w-3xl mx-auto">
+
+            Complete your interview in just four simple steps.
+
+        </p>
+
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mt-16">
+
+        <div class="glass rounded-3xl p-8 text-center">
+
+            <div
+                class="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-indigo-500 to-cyan-500 flex items-center justify-center text-2xl font-bold">
+
+                1
+
+            </div>
+
+            <h3 class="text-2xl font-semibold mt-8">
+
+                Setup
+
+            </h3>
+
+            <p class="text-slate-400 mt-4">
+
+                Select your role,
+                experience,
+                interview type and
+                difficulty.
+
+            </p>
+
+        </div>
+
+        <div class="glass rounded-3xl p-8 text-center">
+
+            <div
+                class="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-indigo-500 to-cyan-500 flex items-center justify-center text-2xl font-bold">
+
+                2
+
+            </div>
+
+            <h3 class="text-2xl font-semibold mt-8">
+
+                AI Interview
+
+            </h3>
+
+            <p class="text-slate-400 mt-4">
+
+                Gemini asks realistic,
+                contextual interview
+                questions.
+
+            </p>
+
+        </div>
+
+        <div class="glass rounded-3xl p-8 text-center">
+
+            <div
+                class="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-indigo-500 to-cyan-500 flex items-center justify-center text-2xl font-bold">
+
+                3
+
+            </div>
+
+            <h3 class="text-2xl font-semibold mt-8">
+
+                Evaluation
+
+            </h3>
+
+            <p class="text-slate-400 mt-4">
+
+                Every answer is analyzed
+                using Generative AI.
+
+            </p>
+
+        </div>
+
+        <div class="glass rounded-3xl p-8 text-center">
+
+            <div
+                class="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-indigo-500 to-cyan-500 flex items-center justify-center text-2xl font-bold">
+
+                4
+
+            </div>
+
+            <h3 class="text-2xl font-semibold mt-8">
+
+                Report
+
+            </h3>
+
+            <p class="text-slate-400 mt-4">
+
+                Download a complete
+                AI generated interview
+                report.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- STATS -->
+<!-- ================================================= -->
+
+<section class="mt-32">
+
+    <div class="glass rounded-3xl p-10">
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-10 text-center">
+
+            <div>
+
+                <h2 class="text-5xl font-black text-indigo-400">
+
+                    10+
+
+                </h2>
+
+                <p class="mt-4 text-slate-400">
+
+                    Interview Domains
+
+                </p>
+
+            </div>
+
+            <div>
+
+                <h2 class="text-5xl font-black text-cyan-400">
+
+                    AI
+
+                </h2>
+
+                <p class="mt-4 text-slate-400">
+
+                    Powered Questions
+
+                </p>
+
+            </div>
+
+            <div>
+
+                <h2 class="text-5xl font-black text-violet-400">
+
+                    Live
+
+                </h2>
+
+                <p class="mt-4 text-slate-400">
+
+                    Evaluation
+
+                </p>
+
+            </div>
+
+            <div>
+
+                <h2 class="text-5xl font-black text-green-400">
+
+                    100%
+
+                </h2>
+
+                <p class="mt-4 text-slate-400">
+
+                    Personalized
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- CALL TO ACTION -->
+<!-- ================================================= -->
+
+<section class="mt-32 mb-16">
+
+    <div class="glass rounded-3xl p-12 text-center">
+
+        <h2 class="text-5xl font-black">
+
+            Ready To Ace Your Next Interview?
+
+        </h2>
+
+        <p class="text-slate-400 mt-6 max-w-3xl mx-auto leading-8">
+
+            Practice with an intelligent AI interviewer,
+            improve your confidence,
+            receive detailed feedback,
+            and prepare for your dream job.
+
+        </p>
+
+        <div class="mt-10">
+
+            <a href="{{ url_for('main.setup') }}"
+                class="inline-flex items-center gap-3 px-10 py-5 rounded-2xl bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-500 hover:scale-105 transition duration-300 font-semibold shadow-xl">
+
+                🚀 Start Your Mock Interview
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
 {% endblock %}

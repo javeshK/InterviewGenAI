@@ -1,89 +1,469 @@
 {% extends "base.html" %}
 
+{% block title %}
+Interview Setup | InterviewGen AI
+{% endblock %}
+
 {% block content %}
 
-<h1>Interview Setup</h1>
+<section class="min-h-[85vh] flex items-center">
 
-<form action="/setup" method="POST">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center w-full">
 
-<label>Name</label>
+        <!-- ================================================= -->
+        <!-- LEFT PANEL -->
+        <!-- ================================================= -->
 
-<input
-type="text"
-name="name"
-required>
+        <div>
 
-<br><br>
+            <span
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-400/20 text-indigo-300">
 
-<label>Role</label>
+                <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
 
-<select name="role">
+                AI Interview Configuration
 
-<option>Python Backend Developer</option>
+            </span>
 
-<option>Full Stack Developer</option>
+            <h1 class="hero-text font-black leading-tight mt-8">
 
-<option>Machine Learning Engineer</option>
+                Configure Your
 
-<option>Cybersecurity Analyst</option>
+                <span class="bg-gradient-to-r from-indigo-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent">
 
-</select>
+                    Interview Experience
 
-<br><br>
+                </span>
 
-<label>Experience</label>
+            </h1>
 
-<select name="experience">
+            <p class="sub-text text-slate-300 mt-8 leading-8 max-w-xl">
 
-<option>Student</option>
+                Tell InterviewGen AI about yourself.
+                Gemini will generate personalized interview
+                questions based on your role,
+                experience level,
+                interview type
+                and selected difficulty.
 
-<option>Fresher</option>
+            </p>
 
-<option>0-2 Years</option>
+            <!-- Benefits -->
 
-<option>2-5 Years</option>
+            <div class="space-y-8 mt-14">
 
-</select>
+                <div class="flex gap-5">
 
-<br><br>
+                    <div class="w-14 h-14 rounded-2xl bg-indigo-500/20 flex items-center justify-center text-2xl">
 
-<label>Interview Type</label>
+                        🤖
 
-<select name="interview_type">
+                    </div>
 
-<option>Technical</option>
+                    <div>
 
-<option>HR</option>
+                        <h3 class="font-semibold text-xl">
 
-<option>Behavioral</option>
+                            AI Generated Questions
 
-<option>Mixed</option>
+                        </h3>
 
-</select>
+                        <p class="text-slate-400 mt-2">
 
-<br><br>
+                            Every interview is unique and generated
+                            in real time using Google Gemini.
 
-<label>Difficulty</label>
+                        </p>
 
-<select name="difficulty">
+                    </div>
 
-<option>Easy</option>
+                </div>
 
-<option>Medium</option>
+                <div class="flex gap-5">
 
-<option>Hard</option>
+                    <div class="w-14 h-14 rounded-2xl bg-cyan-500/20 flex items-center justify-center text-2xl">
 
-</select>
+                        🎤
 
-<br><br>
+                    </div>
 
-<button>
+                    <div>
 
-Start Interview
+                        <h3 class="font-semibold text-xl">
 
-</button>
+                            Voice Interview
 
+                        </h3>
 
-</form>
+                        <p class="text-slate-400 mt-2">
+
+                            Speak naturally while the AI
+                            understands your responses.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="flex gap-5">
+
+                    <div class="w-14 h-14 rounded-2xl bg-violet-500/20 flex items-center justify-center text-2xl">
+
+                        📊
+
+                    </div>
+
+                    <div>
+
+                        <h3 class="font-semibold text-xl">
+
+                            Instant Evaluation
+
+                        </h3>
+
+                        <p class="text-slate-400 mt-2">
+
+                            Receive AI-generated feedback
+                            after every interview.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Stats -->
+
+            <div class="grid grid-cols-3 gap-6 mt-16">
+
+                <div class="glass rounded-2xl p-5 text-center">
+
+                    <h3 class="text-3xl font-bold text-indigo-400">
+
+                        AI
+
+                    </h3>
+
+                    <p class="text-sm text-slate-400 mt-2">
+
+                        Powered
+
+                    </p>
+
+                </div>
+
+                <div class="glass rounded-2xl p-5 text-center">
+
+                    <h3 class="text-3xl font-bold text-cyan-400">
+
+                        Live
+
+                    </h3>
+
+                    <p class="text-sm text-slate-400 mt-2">
+
+                        Questions
+
+                    </p>
+
+                </div>
+
+                <div class="glass rounded-2xl p-5 text-center">
+
+                    <h3 class="text-3xl font-bold text-violet-400">
+
+                        24/7
+
+                    </h3>
+
+                    <p class="text-sm text-slate-400 mt-2">
+
+                        Practice
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ================================================= -->
+        <!-- RIGHT PANEL -->
+        <!-- ================================================= -->
+
+        <div class="glass rounded-3xl p-8 md:p-10">
+
+            <div>
+
+                <h2 class="text-3xl font-bold">
+
+                    Interview Details
+
+                </h2>
+
+                <p class="text-slate-400 mt-3">
+
+                    Fill in your interview preferences.
+                    This information helps the AI personalize
+                    your interview.
+
+                </p>
+
+            </div>
+
+            {% if error %}
+
+            <div class="mt-6 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 px-5 py-4">
+
+                {{ error }}
+
+            </div>
+
+            {% endif %}
+
+            <form action="{{ url_for('main.setup') }}" method="POST" class="space-y-6 mt-8">
+
+                <!-- Name -->
+
+                <div>
+
+                    <label class="block text-sm font-medium mb-2">
+
+                        Full Name
+
+                    </label>
+
+                    <input type="text" name="name" required autocomplete="name" placeholder="John Doe"
+                        class="w-full rounded-xl bg-slate-900/40 border border-white/10 px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+
+                </div>
+
+                <!-- Email -->
+
+                <div>
+
+                    <label class="block text-sm font-medium mb-2">
+
+                        Email Address
+
+                    </label>
+
+                    <input type="email" name="email" autocomplete="email" placeholder="john@example.com"
+                        class="w-full rounded-xl bg-slate-900/40 border border-white/10 px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+
+                </div>
+
+                <!-- Target Role -->
+
+                <div>
+
+                    <label class="block text-sm font-medium mb-2">
+
+                        Target Role
+
+                    </label>
+
+                    <input type="text" name="role" required placeholder="Python Backend Developer"
+                        class="w-full rounded-xl bg-slate-900/40 border border-white/10 px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+
+                </div>
+
+                <!-- Experience -->
+
+                <div>
+
+                    <label class="block text-sm font-medium mb-2">
+
+                        Years of Experience
+
+                    </label>
+
+                    <select name="experience" required
+                        class="w-full rounded-xl bg-slate-900/40 border border-white/10 px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+
+                        <option value="">Select Experience</option>
+                        <option value="Fresher">Fresher (0 Years)</option>
+                        <option value="1-2 Years">1 - 2 Years</option>
+                        <option value="3-5 Years">3 - 5 Years</option>
+                        <option value="5-8 Years">5 - 8 Years</option>
+                        <option value="8+ Years">8+ Years</option>
+
+                    </select>
+
+                </div>
+
+                <!-- Interview Type -->
+
+                <div>
+
+                    <label class="block text-sm font-medium mb-2">
+
+                        Interview Type
+
+                    </label>
+
+                    <select name="interview_type" required
+                        class="w-full rounded-xl bg-slate-900/40 border border-white/10 px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+
+                        <option value="">Select Interview Type</option>
+                        <option value="Technical">Technical</option>
+                        <option value="HR">HR</option>
+                        <option value="Behavioral">Behavioral</option>
+                        <option value="Mixed">Mixed</option>
+
+                    </select>
+
+                </div>
+
+                <!-- Difficulty -->
+
+                <div>
+
+                    <label class="block text-sm font-medium mb-2">
+
+                        Difficulty Level
+
+                    </label>
+
+                    <select name="difficulty" required
+                        class="w-full rounded-xl bg-slate-900/40 border border-white/10 px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+
+                        <option value="">Select Difficulty</option>
+                        <option value="Easy">Easy</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Hard">Hard</option>
+
+                    </select>
+
+                </div>
+
+                <!-- Future Resume Upload -->
+
+                <div class="rounded-2xl border border-dashed border-indigo-400/30 bg-indigo-500/5 p-5">
+
+                    <div class="flex items-start gap-4">
+
+                        <div class="text-3xl">
+
+                            📄
+
+                        </div>
+
+                        <div>
+
+                            <h3 class="font-semibold">
+
+                                Resume-Based Interview
+
+                            </h3>
+
+                            <p class="text-sm text-slate-400 mt-2">
+
+                                Resume upload will be available in the
+                                next version. Gemini will generate
+                                personalized interview questions from
+                                your resume.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Future Webcam -->
+
+                <div class="rounded-2xl border border-dashed border-cyan-400/30 bg-cyan-500/5 p-5">
+
+                    <div class="flex items-start gap-4">
+
+                        <div class="text-3xl">
+
+                            📹
+
+                        </div>
+
+                        <div>
+
+                            <h3 class="font-semibold">
+
+                                Camera Analysis
+
+                            </h3>
+
+                            <p class="text-sm text-slate-400 mt-2">
+
+                                Eye contact, posture analysis and
+                                confidence estimation will be enabled
+                                during the interview.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- AI Info Card -->
+
+                <div
+                    class="rounded-2xl bg-gradient-to-r from-indigo-500/10 via-cyan-500/10 to-violet-500/10 border border-white/10 p-6">
+
+                    <div class="flex gap-4">
+
+                        <div class="text-3xl">
+
+                            💡
+
+                        </div>
+
+                        <div>
+
+                            <h3 class="font-semibold">
+
+                                Interview Tips
+
+                            </h3>
+
+                            <ul class="text-slate-300 text-sm mt-3 space-y-2 list-disc list-inside">
+
+                                <li>Speak clearly and confidently.</li>
+
+                                <li>Give practical examples whenever possible.</li>
+
+                                <li>Think aloud while solving technical questions.</li>
+
+                                <li>Don't worry if you don't know every answer.</li>
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Submit Button -->
+
+                <button type="submit"
+                    class="w-full mt-4 rounded-2xl bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-500 py-4 text-lg font-semibold hover:scale-[1.02] transition duration-300 shadow-xl">
+
+                    🚀 Start AI Interview
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
 
 {% endblock %}

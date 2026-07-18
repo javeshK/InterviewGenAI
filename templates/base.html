@@ -4,29 +4,338 @@
 <head>
 
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>InterviewGen AI</title>
+    <title>
+        {% block title %}
+        InterviewGen AI
+        {% endblock %}
+    </title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Tailwind -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Font -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        .glass {
+
+            background: rgba(255, 255, 255, .06);
+
+            backdrop-filter: blur(18px);
+
+            border: 1px solid rgba(255, 255, 255, .08);
+
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, .35);
+
+        }
+
+        .hero-text {
+
+            font-size: clamp(2.5rem, 5vw, 5rem);
+
+        }
+
+        .sub-text {
+
+            font-size: clamp(1rem, 1.4vw, 1.2rem);
+
+        }
+
+        .blob {
+
+            position: absolute;
+
+            filter: blur(90px);
+
+            opacity: .35;
+
+            border-radius: 9999px;
+
+            animation: float 10s ease-in-out infinite;
+
+        }
+
+        @keyframes float {
+
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-30px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+
+        }
+    </style>
 
 </head>
 
-<body>
+<body class="min-h-screen
+bg-gradient-to-br
+from-slate-950
+via-indigo-950
+to-slate-950
+text-white
+relative
+overflow-x-hidden">
 
-<nav>
 
-    <h2>InterviewGen AI</h2>
+    <!-- Background SVG Pattern -->
 
-</nav>
+    <div
+        class="absolute inset-0 opacity-[0.05]
+bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2280%22 height=%2280%22 viewBox=%220 0 80 80%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%23ffffff%22 fill-opacity=%220.4%22%3E%3Cpath d=%22M50 50c0-5.523-4.477-10-10-10S30 44.477 30 50s4.477 10 10 10 10-4.477 10-10zm30 0c0-22.091-17.909-40-40-40S0 27.909 0 50s17.909 40 40 40 40-17.909 40-40z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]">
+    </div>
 
-<div class="container">
 
-{% block content %}
+    <!-- Animated Blobs -->
 
-{% endblock %}
+    <div class="blob
+w-96
+h-96
+bg-indigo-600
+top-20
+-left-32">
+    </div>
 
-</div>
+    <div class="blob
+w-[450px]
+h-[450px]
+bg-fuchsia-600
+bottom-0
+right-0
+animation-delay-2000">
+    </div>
+
+    <div class="blob
+w-72
+h-72
+bg-cyan-500
+top-1/2
+left-1/2">
+    </div>
+
+
+    <!-- Navigation -->
+
+    <nav class="sticky
+top-0
+z-50
+border-b
+border-white/10
+backdrop-blur-xl
+bg-slate-950/40">
+
+        <div class="max-w-7xl
+mx-auto
+px-4
+md:px-8">
+
+            <div class="flex
+items-center
+justify-between
+h-20">
+
+
+                <a href="/" class="flex
+items-center
+gap-3">
+
+                    <div class="w-11
+h-11
+rounded-xl
+bg-gradient-to-br
+from-indigo-500
+to-cyan-500
+flex
+items-center
+justify-center
+font-bold
+text-xl">
+
+                        AI
+
+                    </div>
+
+                    <div>
+
+                        <h1 class="font-bold
+text-xl
+tracking-wide">
+
+                            InterviewGen AI
+
+                        </h1>
+
+                        <p class="text-xs
+text-slate-400">
+
+                            GenAI Mock Interview Platform
+
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+                <div class="hidden
+md:flex
+items-center
+gap-6">
+
+                    <a href="/" class="hover:text-indigo-300 transition">
+
+                        Home
+
+                    </a>
+
+                    <a href="/setup" class="hover:text-indigo-300 transition">
+
+                        Interview
+
+                    </a>
+
+                    <a href="#" class="hover:text-indigo-300 transition">
+
+                        Documentation
+
+                    </a>
+
+                    <a href="#" class="hover:text-indigo-300 transition">
+
+                        About
+
+                    </a>
+
+                </div>
+
+
+                <div>
+
+                    <a href="/setup" class="px-5
+py-2.5
+rounded-xl
+bg-gradient-to-r
+from-indigo-500
+to-violet-600
+hover:scale-105
+transition
+shadow-lg">
+
+                        Start
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- Main Content -->
+
+    <main class="relative
+z-10">
+
+        <div class="max-w-7xl
+mx-auto
+px-4
+md:px-8
+py-8
+md:py-12">
+
+            {% block content %}
+
+            {% endblock %}
+
+        </div>
+
+    </main>
+
+
+
+    <!-- Footer -->
+
+    <footer class="relative
+z-10
+border-t
+border-white/10
+mt-20">
+
+        <div class="max-w-7xl
+mx-auto
+px-4
+md:px-8
+py-8">
+
+            <div class="flex
+flex-col
+md:flex-row
+justify-between
+items-center
+gap-4">
+
+                <div>
+
+                    <h3 class="font-semibold">
+
+                        InterviewGen AI
+
+                    </h3>
+
+                    <p class="text-sm
+text-slate-400">
+
+                        AI-Powered Mock Interview Platform built using
+                        Flask, Python and Gemini.
+
+                    </p>
+
+                </div>
+
+                <div class="text-sm
+text-slate-500">
+
+                    © 2026 InterviewGen AI
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
 
 </body>
 

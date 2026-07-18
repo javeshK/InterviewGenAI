@@ -1,42 +1,597 @@
 {% extends "base.html" %}
 
+{% block title %}
+AI Interview | InterviewGen AI
+{% endblock %}
+
 {% block content %}
 
-<h1>Interview Room</h1>
+<section class="min-h-screen">
 
-<h3>Candidate Details</h3>
+    <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
 
-<table border="1" cellpadding="10">
+        <!-- ================================================= -->
+        <!-- LEFT SIDEBAR -->
+        <!-- ================================================= -->
 
-<tr>
-    <td><strong>Name</strong></td>
-    <td>{{ interview.name }}</td>
-</tr>
+        <aside class="xl:col-span-1 space-y-6">
 
-<tr>
-    <td><strong>Role</strong></td>
-    <td>{{ interview.role }}</td>
-</tr>
+            <!-- Candidate Card -->
 
-<tr>
-    <td><strong>Experience</strong></td>
-    <td>{{ interview.experience }}</td>
-</tr>
+            <div class="glass rounded-3xl p-6">
 
-<tr>
-    <td><strong>Interview Type</strong></td>
-    <td>{{ interview.interview_type }}</td>
-</tr>
+                <div class="flex items-center gap-4">
 
-<tr>
-    <td><strong>Difficulty</strong></td>
-    <td>{{ interview.difficulty }}</td>
-</tr>
+                    <div
+                        class="w-16 h-16 rounded-full bg-gradient-to-r from-indigo-500 to-cyan-500 flex items-center justify-center text-2xl font-bold">
 
-</table>
+                        {{ session.candidate_name[0] if session.candidate_name else "A" }}
 
-<hr>
+                    </div>
 
-<h2>AI Interview Will Begin Here...</h2>
+                    <div>
+
+                        <h2 class="font-bold text-xl">
+
+                            {{ session.candidate_name }}
+
+                        </h2>
+
+                        <p class="text-slate-400">
+
+                            Candidate
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <hr class="border-white/10 my-6">
+
+                <div class="space-y-5">
+
+                    <div class="flex justify-between">
+
+                        <span class="text-slate-400">
+
+                            Role
+
+                        </span>
+
+                        <span class="font-medium">
+
+                            {{ session.role }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="flex justify-between">
+
+                        <span class="text-slate-400">
+
+                            Experience
+
+                        </span>
+
+                        <span>
+
+                            {{ session.experience }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="flex justify-between">
+
+                        <span class="text-slate-400">
+
+                            Interview
+
+                        </span>
+
+                        <span>
+
+                            {{ session.interview_type }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="flex justify-between">
+
+                        <span class="text-slate-400">
+
+                            Difficulty
+
+                        </span>
+
+                        <span>
+
+                            {{ session.difficulty }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Progress Card -->
+
+            <div class="glass rounded-3xl p-6">
+
+                <div class="flex justify-between items-center">
+
+                    <h3 class="font-semibold">
+
+                        Interview Progress
+
+                    </h3>
+
+                    <span id="questionCounter" class="text-indigo-400 font-semibold">
+
+                        Question {{ session.question_number }}
+
+                    </span>
+
+                </div>
+
+                <div class="w-full bg-slate-800 rounded-full h-3 mt-6">
+
+                    <div id="progressBar"
+                        class="bg-gradient-to-r from-indigo-500 via-cyan-500 to-violet-500 h-3 rounded-full"
+                        style="width:10%">
+
+                    </div>
+
+                </div>
+
+                <p id="progressText" class="text-sm text-slate-400 mt-4">
+
+                    AI is adapting questions according to your answers.
+
+                </p>
+
+            </div>
+
+            <!-- Live Score -->
+
+            <div class="glass rounded-3xl p-6">
+
+                <h3 class="font-semibold">
+
+                    Live AI Score
+
+                </h3>
+
+                <div class="mt-8 text-center">
+
+                    <h2 id="liveScore"
+                        class="text-6xl font-black bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent">
+
+                        --
+
+                    </h2>
+
+                    <p class="text-slate-400 mt-3">
+
+                        Calculated after each answer
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- AI Status -->
+
+            <div id="thinkingCard" class="glass rounded-3xl p-6 hidden">
+
+                <div class="flex items-center gap-4">
+
+                    <div class="w-12 h-12 rounded-full border-4 border-indigo-500 border-t-transparent animate-spin">
+
+                    </div>
+
+                    <div>
+
+                        <h3 class="font-semibold">
+
+                            Gemini is Thinking...
+
+                        </h3>
+
+                        <p id="aiStatus" class="text-slate-400 text-sm">
+
+                            Evaluating your response
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+        <!-- ================================================= -->
+        <!-- MAIN INTERVIEW PANEL -->
+        <!-- ================================================= -->
+
+        <main class="xl:col-span-3">
+
+            <div class="glass rounded-3xl p-8">
+
+                <!-- Header -->
+
+                <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6">
+
+                    <div>
+
+                        <span
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 text-green-300">
+
+                            <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse">
+
+                            </span>
+
+                            LIVE INTERVIEW
+
+                        </span>
+
+                        <h2 class="text-4xl font-bold mt-6">
+
+                            AI Technical Interview
+
+                        </h2>
+
+                    </div>
+
+                    <!-- Timer -->
+
+                    <div class="glass rounded-2xl px-8 py-5">
+
+                        <p class="text-slate-400">
+
+                            Interview Timer
+
+                        </p>
+
+                        <h2 id="timer" class="text-4xl font-bold text-cyan-400 mt-2">
+
+                            00:00
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+                <!-- Current Question -->
+
+                <div
+                    class="mt-10 rounded-3xl bg-gradient-to-r from-indigo-500/10 via-cyan-500/10 to-violet-500/10 border border-white/10 p-8">
+
+                    <div class="flex items-center gap-4">
+
+                        <div
+                            class="w-14 h-14 rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-500 flex items-center justify-center text-2xl">
+
+                            🤖
+
+                        </div>
+
+                        <div>
+
+                            <h3 class="font-semibold text-xl">
+
+                                AI Interviewer
+
+                            </h3>
+
+                            <p class="text-slate-400">
+
+                                Current Question
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <p id="currentQuestion" class="text-xl leading-9 mt-8">
+
+                        {{ session.current_question }}
+
+                    </p>
+
+                </div>
+
+                <!-- ================================================= -->
+                <!-- ANSWER SECTION -->
+                <!-- ================================================= -->
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-10">
+
+                    <!-- LEFT SIDE -->
+
+                    <div class="lg:col-span-2 space-y-8">
+
+                        <!-- Answer Box -->
+
+                        <div class="glass rounded-3xl p-6">
+
+                            <div class="flex justify-between items-center">
+
+                                <h3 class="text-2xl font-semibold">
+
+                                    Your Answer
+
+                                </h3>
+
+                                <span id="recordingStatus"
+                                    class="px-4 py-2 rounded-full bg-red-500/20 text-red-300 hidden">
+
+                                    🎙 Recording...
+
+                                </span>
+
+                            </div>
+
+                            <textarea id="answerBox" rows="10" spellcheck="false"
+                                placeholder="Type your answer here or use the microphone..."
+                                class="w-full mt-6 rounded-2xl bg-slate-900/50 border border-white/10 p-6 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none text-lg">
+
+                            </textarea>
+
+                            <!-- Controls -->
+
+                            <div class="flex flex-wrap gap-4 mt-6">
+
+                                <button id="startRecording" type="button"
+                                    class="px-6 py-3 rounded-xl bg-green-600 hover:bg-green-500 transition">
+
+                                    🎤 Start Recording
+
+                                </button>
+
+                                <button id="stopRecording" type="button"
+                                    class="px-6 py-3 rounded-xl bg-red-600 hover:bg-red-500 transition">
+
+                                    ⏹ Stop Recording
+
+                                </button>
+
+                                <button id="clearAnswer" type="button"
+                                    class="px-6 py-3 rounded-xl bg-slate-700 hover:bg-slate-600 transition">
+
+                                    🗑 Clear
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Transcript -->
+
+                        <div class="glass rounded-3xl p-6">
+
+                            <div class="flex justify-between items-center">
+
+                                <h3 class="text-2xl font-semibold">
+
+                                    Live Transcript
+
+                                </h3>
+
+                                <span class="text-green-400">
+
+                                    Auto Updated
+
+                                </span>
+
+                            </div>
+
+                            <div id="transcript"
+                                class="mt-6 min-h-[180px] rounded-2xl bg-slate-900/40 border border-white/10 p-5 overflow-y-auto text-slate-300 leading-8">
+
+                                Waiting for microphone...
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- RIGHT PANEL -->
+
+                    <div class="space-y-6">
+
+                        <!-- Webcam -->
+
+                        <div class="glass rounded-3xl p-6">
+
+                            <h3 class="font-semibold">
+
+                                Webcam
+
+                            </h3>
+
+                            <div
+                                class="mt-5 rounded-2xl bg-slate-900/40 border border-dashed border-white/10 h-64 flex items-center justify-center">
+
+                                <div class="text-center">
+
+                                    <div class="text-5xl">
+
+                                        📹
+
+                                    </div>
+
+                                    <p class="text-slate-400 mt-4">
+
+                                        Camera Module
+
+                                        <br>
+
+                                        Coming Soon
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- AI Feedback -->
+
+                        <div class="glass rounded-3xl p-6">
+
+                            <h3 class="font-semibold">
+
+                                AI Feedback
+
+                            </h3>
+
+                            <div id="feedbackCard"
+                                class="mt-5 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 p-5 text-slate-300 leading-8">
+
+                                Feedback will appear after you answer the question.
+
+                            </div>
+
+                        </div>
+
+                        <!-- Question Analysis -->
+
+                        <div class="glass rounded-3xl p-6">
+
+                            <h3 class="font-semibold">
+
+                                Interview Insights
+
+                            </h3>
+
+                            <div class="space-y-4 mt-6">
+
+                                <div class="flex justify-between">
+
+                                    <span class="text-slate-400">
+
+                                        Confidence
+
+                                    </span>
+
+                                    <span id="confidenceScore">
+
+                                        --
+
+                                    </span>
+
+                                </div>
+
+                                <div class="flex justify-between">
+
+                                    <span class="text-slate-400">
+
+                                        Communication
+
+                                    </span>
+
+                                    <span id="communicationScore">
+
+                                        --
+
+                                    </span>
+
+                                </div>
+
+                                <div class="flex justify-between">
+
+                                    <span class="text-slate-400">
+
+                                        Technical
+
+                                    </span>
+
+                                    <span id="technicalScore">
+
+                                        --
+
+                                    </span>
+
+                                </div>
+
+                                <div class="flex justify-between">
+
+                                    <span class="text-slate-400">
+
+                                        Overall
+
+                                    </span>
+
+                                    <span id="overallScore">
+
+                                        --
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Buttons -->
+
+                <div class="flex flex-wrap justify-between gap-6 mt-10">
+
+                    <button id="submitAnswer"
+                        class="px-10 py-4 rounded-2xl bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-500 hover:scale-105 transition font-semibold shadow-xl">
+
+                        Submit Answer →
+
+                    </button>
+
+                    <button id="finishInterview" class="px-10 py-4 rounded-2xl bg-red-600 hover:bg-red-500 transition">
+
+                        Finish Interview
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</section>
+
+<!-- Hidden Session ID -->
+
+<input type="hidden" id="sessionId" value="{{ session.session_id if session.session_id else '' }}">
+
+<!-- JavaScript -->
+
+<script>
+    const CURRENT_SESSION =
+        document.getElementById("sessionId").value;
+</script>
+
+<script src="{{ url_for('static', filename='js/interview.js') }}"></script>
+<script src="{{ url_for('static', filename='js/speech.js') }}"></script>
+<script src="{{ url_for('static', filename='js/camera.js') }}"></script>
 
 {% endblock %}

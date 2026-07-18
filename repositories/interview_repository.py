@@ -5,36 +5,29 @@ from models.interview import Interview
 class InterviewRepository:
 
     @staticmethod
-    def create(candidate_id,
-               role,
-               experience,
-               interview_type,
-               difficulty):
-
-        interview = Interview(
-
-            candidate_id=candidate_id,
-
-            role=role,
-
-            experience=experience,
-
-            interview_type=interview_type,
-
-            difficulty=difficulty
-        )
-
+    def add(interview: Interview):
         db.session.add(interview)
-        db.session.flush()
-
-        return interview
 
     @staticmethod
-    def get(interview_id):
-
+    def get(interview_id: str):
         return Interview.query.get(interview_id)
 
     @staticmethod
-    def save():
+    def get_all():
+        return Interview.query.all()
 
-        db.session.commit()
+    @staticmethod
+    def get_active(candidate_id: str):
+
+        return (
+            Interview.query
+            .filter_by(
+                candidate_id=candidate_id,
+                status="In Progress"
+            )
+            .first()
+        )
+
+    @staticmethod
+    def delete(interview: Interview):
+        db.session.delete(interview)

@@ -3,52 +3,24 @@ from models.interview_question import InterviewQuestion
 
 
 class InterviewQuestionRepository:
-    """
-    Repository responsible for InterviewQuestion database operations.
-
-    NOTE:
-    This repository NEVER commits transactions.
-    Transaction management is handled by InterviewService.
-    """
 
     @staticmethod
-    def create(
-        interview_id: str,
-        question_number: int,
-        question: str
-    ) -> InterviewQuestion:
-        """
-        Create a new interview question object.
-
-        Returns the object without committing.
-        """
-
-        interview_question = InterviewQuestion(
-            interview_id=interview_id,
-            question_number=question_number,
-            question=question
-        )
-
-        return interview_question
+    def add(question: InterviewQuestion):
+        db.session.add(question)
 
     @staticmethod
-    def get(question_id: str) -> InterviewQuestion | None:
-        """
-        Get a question by its ID.
-        """
-
+    def get(question_id: str):
         return InterviewQuestion.query.get(question_id)
 
     @staticmethod
-    def get_by_interview(interview_id: str) -> list[InterviewQuestion]:
-        """
-        Return all questions belonging to an interview.
-        """
+    def get_by_interview(interview_id: str):
 
         return (
             InterviewQuestion.query
             .filter_by(interview_id=interview_id)
-            .order_by(InterviewQuestion.question_number.asc())
+            .order_by(
+                InterviewQuestion.question_number
+            )
             .all()
         )
 
@@ -56,10 +28,7 @@ class InterviewQuestionRepository:
     def get_by_number(
         interview_id: str,
         question_number: int
-    ) -> InterviewQuestion | None:
-        """
-        Get a specific question number for an interview.
-        """
+    ):
 
         return (
             InterviewQuestion.query
@@ -71,10 +40,7 @@ class InterviewQuestionRepository:
         )
 
     @staticmethod
-    def get_latest(interview_id: str) -> InterviewQuestion | None:
-        """
-        Return the most recently asked question.
-        """
+    def get_latest(interview_id: str):
 
         return (
             InterviewQuestion.query
@@ -86,17 +52,5 @@ class InterviewQuestionRepository:
         )
 
     @staticmethod
-    def get_all() -> list[InterviewQuestion]:
-        """
-        Return every interview question.
-        """
-
-        return InterviewQuestion.query.all()
-
-    @staticmethod
-    def delete(question: InterviewQuestion) -> None:
-        """
-        Delete a question object.
-        """
-
+    def delete(question: InterviewQuestion):
         db.session.delete(question)

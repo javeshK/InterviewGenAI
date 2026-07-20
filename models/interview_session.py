@@ -1,31 +1,155 @@
-from dataclasses import dataclass, field
+"""
+interview_session.py
 
-from models.conversation_message import ConversationMessage
+Runtime interview session object.
+
+This class is NOT stored in the database.
+
+Purpose
+-------
+Acts as the working memory for InterviewService during an interview.
+
+Contains:
+- Candidate
+- Interview
+- Current Question
+- Question History
+
+The database remains the source of truth, while this object
+makes business logic much cleaner.
+"""
+
+from dataclasses import dataclass, field
+from typing import List, Optional
+
+from models.candidate import Candidate
+from models.interview import Interview
+from models.interview_question import InterviewQuestion
 
 
 @dataclass
 class InterviewSession:
+    """
+    Runtime interview session.
 
-    interview_id: int
+    This object exists only while InterviewService is executing.
+    """
 
-    candidate_name: str
+    candidate: Candidate
 
-    role: str
+    interview: Interview
 
-    experience: str
+    current_question: Optional[InterviewQuestion] = None
 
-    interview_type: str
+    history: List[InterviewQuestion] = field(default_factory=list)
 
-    difficulty: str
+    # -----------------------------
+    # Helper Methods
+    # -----------------------------
 
-    question_number: int = 0
+    def add_question(
+        self,
+        question: InterviewQuestion
+    ) -> None:
+        """
+        Add a newly generated question to history.
+        """
 
-    current_question: str = ""
+        self.history.append(question)
+        self.current_question = question
 
-    history: list[ConversationMessage] = field(default_factory=list)
+    def get_question_count(self) -> int:
+        """
+        Returns number of generated questions.
+        """
 
-    technical_scores: list[float] = field(default_factory=list)
+        return len(self.history)
 
-    communication_scores: list[float] = field(default_factory=list)
+    def has_questions(self) -> bool:
+        """
+        Returns True if at least one question exists.
+        """
 
-    confidence_scores: list[float] = field(default_factory=list)
+        return len(self.history) > 0
+
+    def is_finished(self) -> bool:
+        """
+        Check whether interview has reached its limit.
+        """
+
+        return (
+            self.interview.current_question_number
+            >=
+            self.interview.total_questions
+        )
+
+    def current_question_number(self) -> int:
+        """
+        Returns current interview question number.
+        """
+
+        return self.interview.current_question_number
+
+    def next_question_number(self) -> int:
+        """
+        Returns the next question number.
+        """
+
+        return self.interview.current_question_number + 1
+
+    def increment_question(self) -> None:
+        """
+        Move interview to the next question.
+        """
+
+        self.interview.current_question_number += 1
+        self.interview.completed_questions += 1
+
+    def get_latest_question(self) -> Optional[InterviewQuestion]:
+        """
+        Returns the most recently asked question.
+        """
+
+        return self.current_question
+
+    def set_current_question(
+        self,
+        question: InterviewQuestion
+    ) -> None:
+        """
+        Set current active question.
+        """
+
+        self.current_question = question
+
+    def complete(self) -> None:
+        """
+        Mark interview as completed.
+        """
+
+        self.interview.status = "Completed"
+
+    def cancel(self) -> None:
+        """
+        Cancel interview.
+        """
+
+        self.interview.status = "Cancelled"
+
+    def reset(self) -> None:
+        """
+        Clears runtime state.
+        """
+
+        self.current_question = None
+        self.history.clear()
+
+    def __repr__(self) -> str:
+
+        return (
+            f"<InterviewSession("
+            f"candidate='{self.candidate.full_name}', "
+            f"role='{self.candidate.target_role}', "
+            f"question={self.interview.current_question_number}, "
+            f"status='{self.interview.status}')>"
+        )

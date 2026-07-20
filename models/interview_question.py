@@ -1,6 +1,6 @@
 from datetime import datetime
 import uuid
-
+from enums.question_type import QuestionType
 from database.db import db
 
 
@@ -35,6 +35,11 @@ class InterviewQuestion(db.Model):
         db.Integer,
         nullable=False
     )
+
+    question_type = db.Column(
+    db.String(30),
+    default=QuestionType.TECHNICAL.value
+)
 
     # -----------------------------
     # Interview Content

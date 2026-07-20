@@ -1,5 +1,5 @@
 from database.db import db
-
+from enums.interview_status import InterviewStatus
 from datetime import datetime
 import uuid
 
@@ -22,7 +22,7 @@ class Interview(db.Model):
 
     status = db.Column(
         db.String(20),
-        default="In Progress"
+        default=InterviewStatus.PENDING.value
     )
 
     started_at = db.Column(
@@ -38,6 +38,11 @@ class Interview(db.Model):
     current_question_number = db.Column(
         db.Integer,
         default=1
+    )
+
+    completed_questions = db.Column(
+        db.Integer,
+        default=0
     )
 
     total_questions = db.Column(

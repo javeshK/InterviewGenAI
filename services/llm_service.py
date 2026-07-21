@@ -117,6 +117,9 @@ class LLMService:
         )
 
         response = self._generate(prompt)
+        print("\n========== GEMINI RESPONSE ==========")
+        print(response)
+        print("=====================================\n")
 
         try:
 
@@ -132,6 +135,9 @@ class LLMService:
             raise RuntimeError(
                 "Gemini returned invalid evaluation JSON."
             )
+        
+
+    
 
     # --------------------------------------------------
     # Final Interview Report

@@ -1,88 +1,241 @@
+"""
+routes/main.py
+
+Main application routes.
+
+Responsibilities
+----------------
+- Home page
+- Interview setup
+- Interview page
+- Submit answer API
+"""
+
 from flask import (
     Blueprint,
+    jsonify,
+    redirect,
     render_template,
     request,
-    redirect,
-    url_for
+    url_for,
 )
 
+from dto.interview_request import InterviewRequest
 from services.interview_service import InterviewService
-from services.session_manager import SessionManager
 
 main = Blueprint("main", __name__)
 
-# Create one instance of InterviewService
 interview_service = InterviewService()
 
+
+# ==========================================================
+# Home
+# ==========================================================
 
 @main.route("/")
 def home():
     return render_template("index.html")
 
 
+# ==========================================================
+# Interview Setup
+# ==========================================================
+
 @main.route("/setup", methods=["GET", "POST"])
 def setup():
 
-    if request.method == "POST":
+    if request.method == "GET":
+        return render_template("setup.html")
 
-        name = request.form["name"]
+    try:
 
-        # Optional email field
-        email = request.form.get("email")
+        interview_request = InterviewRequest(
 
-        role = request.form["role"]
+            full_name=request.form["name"],
 
-        experience = request.form["experience"]
+            email=request.form.get("email", "").strip(),
 
-        interview_type = request.form["interview_type"]
+            target_role=request.form["role"],
 
-        difficulty = request.form["difficulty"]
+            experience=request.form["experience"],
 
-        try:
+            interview_type=request.form["interview_type"],
 
-            interview_session = interview_service.start_interview(
+            difficulty=request.form["difficulty"],
 
-                name=name,
+            total_questions=10,
 
-                email=email,
+        )
 
-                role=role,
+        interview = interview_service.start_interview(
+            interview_request
+        )
 
-                experience=experience,
-
-                interview_type=interview_type,
-
-                difficulty=difficulty
+        return redirect(
+            url_for(
+                "main.interview",
+                interview_id=interview.id,
             )
+        )
 
-            return redirect(
-                url_for(
-                    "main.interview",
-                    interview_id=interview_session.interview_id
-                )
-            )
+    except Exception as e:
 
-        except Exception as e:
+        print(e)
 
-            print(e)
-
-            return render_template(
-                "setup.html",
-                error="Failed to start interview. Please try again."
-            )
-
-    return render_template("setup.html")
+        return render_template(
+            "setup.html",
+            error="Unable to start interview.",
+        )
 
 
-@main.route("/interview/<int:interview_id>")
+# ==========================================================
+# Interview Screen
+# ==========================================================
+
+@main.route("/interview/<interview_id>")
 def interview(interview_id):
 
-    interview_session = SessionManager.get_session(interview_id)
+    interview = interview_service.get_interview(
+        interview_id
+    )
 
-    if interview_session is None:
-        return "Interview session not found.", 404
+    if interview is None:
+
+        return (
+            "Interview not found.",
+            404,
+        )
+
+    current_question = (
+        interview_service.get_current_question(
+            interview_id
+        )
+    )
 
     return render_template(
+
         "interview.html",
-        session=interview_session
+
+        interview=interview,
+
+        question=current_question,
+
+    )
+
+
+# ==========================================================
+# Submit Answer
+# ==========================================================
+
+@main.route("/submit-answer", methods=["POST"])
+def submit_answer():
+
+    try:
+
+        data = request.get_json()
+
+        interview_id = data["interview_id"]
+
+        answer = data["answer"]
+
+        result = (
+            interview_service.submit_answer(
+                interview_id,
+                answer,
+            )
+        )
+
+        if result["completed"]:
+
+            return jsonify(
+
+                {
+                    "completed": True,
+
+                    "redirect": url_for(
+                        "main.report",
+                        interview_id=interview_id,
+                    ),
+                }
+
+            )
+
+        question = result["question"]
+
+        return jsonify(
+
+            {
+
+                        "completed": False,
+
+                        "question":
+                            question.question,
+
+                        "question_number":
+                            question.question_number,
+
+                        "feedback":
+                            result["feedback"],
+
+                        "technical_score":
+                            result["technical_score"],
+
+                        "communication_score":
+                            result["communication_score"],
+
+                        "confidence_score":
+                            result["confidence_score"],
+
+                        "overall_score":
+                            result["overall_score"],
+
+            }
+
+        )
+
+    except Exception as e:
+
+        print(e)
+
+        return (
+
+            jsonify(
+
+                {
+
+                    "error": str(e)
+
+                }
+
+            ),
+
+            500,
+
+        )
+
+
+# ==========================================================
+# Interview Report
+# ==========================================================
+
+@main.route("/report/<interview_id>")
+def report(interview_id):
+
+    interview = interview_service.get_interview(
+        interview_id
+    )
+
+    if interview is None:
+
+        return (
+            "Interview not found.",
+            404,
+        )
+
+    return render_template(
+
+        "report.html",
+
+        interview=interview,
+
     )

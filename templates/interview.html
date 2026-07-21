@@ -25,7 +25,7 @@ AI Interview | InterviewGen AI
                     <div
                         class="w-16 h-16 rounded-full bg-gradient-to-r from-indigo-500 to-cyan-500 flex items-center justify-center text-2xl font-bold">
 
-                        {{ session.candidate_name[0] if session.candidate_name else "A" }}
+                        {{ interview.candidate.full_name[0] if interview.candidate.full_name else "A" }}
 
                     </div>
 
@@ -33,7 +33,7 @@ AI Interview | InterviewGen AI
 
                         <h2 class="font-bold text-xl">
 
-                            {{ session.candidate_name }}
+                            {{ interview.candidate.full_name }}
 
                         </h2>
 
@@ -61,7 +61,7 @@ AI Interview | InterviewGen AI
 
                         <span class="font-medium">
 
-                            {{ session.role }}
+                            {{ interview.candidate.target_role }}
 
                         </span>
 
@@ -77,7 +77,7 @@ AI Interview | InterviewGen AI
 
                         <span>
 
-                            {{ session.experience }}
+                            {{ interview.candidate.experience }}
 
                         </span>
 
@@ -93,7 +93,7 @@ AI Interview | InterviewGen AI
 
                         <span>
 
-                            {{ session.interview_type }}
+                            {{ interview.candidate.interview_type }}
 
                         </span>
 
@@ -109,7 +109,7 @@ AI Interview | InterviewGen AI
 
                         <span>
 
-                            {{ session.difficulty }}
+                            {{ interview.candidate.difficulty }}
 
                         </span>
 
@@ -133,7 +133,7 @@ AI Interview | InterviewGen AI
 
                     <span id="questionCounter" class="text-indigo-400 font-semibold">
 
-                        Question {{ session.question_number }}
+                        Question {{ interview.current_question_number }}
 
                     </span>
 
@@ -305,7 +305,7 @@ AI Interview | InterviewGen AI
 
                     <p id="currentQuestion" class="text-xl leading-9 mt-8">
 
-                        {{ session.current_question }}
+                        {{ question.question }}
 
                     </p>
 
@@ -581,7 +581,7 @@ AI Interview | InterviewGen AI
 
 <!-- Hidden Session ID -->
 
-<input type="hidden" id="sessionId" value="{{ session.session_id if session.session_id else '' }}">
+<input type="hidden" id="sessionId" value="{{ interview.id if interview.id else '' }}">
 
 <!-- JavaScript -->
 

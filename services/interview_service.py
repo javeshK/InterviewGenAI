@@ -690,11 +690,8 @@ class InterviewService:
             # Validate AI Output
             # -----------------------------------
 
-            evaluation = (
-                self.evaluation_service.validate_evaluation(
-                    evaluation
-                )
-            )
+            self.evaluation_service.validate_evaluation(
+                    evaluation)
 
             # -----------------------------------
             # Save Scores
@@ -747,14 +744,21 @@ class InterviewService:
 
                 return {
 
-                    "completed": True,
+    "completed": True,
 
-                    "message": "Interview completed successfully.",
+    "interview": interview,
 
-                    "interview": interview,
+    "feedback": current_question.feedback,
 
-                }
+    "technical_score": current_question.technical_score,
 
+    "communication_score": current_question.communication_score,
+
+    "confidence_score": current_question.confidence_score,
+
+    "overall_score": current_question.overall_score,
+
+}
             # -----------------------------------
             # Generate Next Question
             # -----------------------------------
@@ -808,13 +812,23 @@ class InterviewService:
 
             return {
 
-                "completed": False,
+    "completed": False,
 
-                "question": next_question,
+    "question": next_question,
 
-                "interview": interview,
+    "interview": interview,
 
-            }
+    "feedback": evaluation["feedback"],
+
+    "technical_score": evaluation["technical_score"],
+
+    "communication_score": evaluation["communication_score"],
+
+    "confidence_score": evaluation["confidence_score"],
+
+    "overall_score": evaluation["overall_score"],
+
+}
 
         except Exception as exc:
 

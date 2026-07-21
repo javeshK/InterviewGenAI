@@ -172,3 +172,36 @@ class EvaluationService:
             ) / len(evaluations),
             2
         )
+    
+    def validate_evaluation(self, evaluation: dict) -> None:
+        """
+        Validates Gemini evaluation response.
+        """
+
+        required_fields = [
+            "technical_score",
+            "communication_score",
+            "confidence_score",
+            "overall_score",
+            "feedback",
+            "ideal_answer",
+        ]
+
+        for field in required_fields:
+            if field not in evaluation:
+                raise ValueError(
+                    f"Missing evaluation field: {field}"
+                )
+
+        score_fields = [
+            "technical_score",
+            "communication_score",
+            "confidence_score",
+            "overall_score",
+        ]
+
+        for field in score_fields:
+            if not isinstance(evaluation[field], (int, float)):
+                raise ValueError(
+                    f"{field} must be numeric."
+                )
